@@ -1,5 +1,10 @@
 import re
-from itertools import izip_longest
+try:
+    # Python 3
+    from itertools import zip_longest
+except ImportError:
+    # Python 2
+    from itertools import izip_longest as zip_longest
 
 
 class _Comparable(object):
@@ -32,7 +37,7 @@ class _Seq(_Comparable):
 
     def __lt__(self, other):
         assert set([int, str]) >= set(map(type, self.seq))
-        for s, o in izip_longest(self.seq, other.seq):
+        for s, o in zip_longest(self.seq, other.seq):
             assert not (s is None and o is None)
             if s is None or o is None:
                 return bool(s is None)
